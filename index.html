@@ -47,6 +47,9 @@
 			--testimonial-header-text-color: #000000;
 			--testimonial-header-text-mt: 12px;
 
+			--testimonial-slider-main-pl: 0;
+			--testimonial-slider-main-pr: 0;
+
 			--testimonial-wrapper-pt: 20px;
 			--testimonial-wrapper-pb: 20px;
 			--testimonial-wrapper-mt: -20px;
@@ -54,7 +57,7 @@
 
 			--testimonial-slide-tansition: .4s;
 			--testimonial-slide-opacity: .45;
-			--testimonial-slide-scale: .82;
+			--testimonial-slide-scale: .92;
 			--testimonial-slide-blur: 2px;
 
 			--testimonial-slide-active-opacity: 1;
@@ -122,7 +125,7 @@
 			:root {
 				--testimonial-item-padding: 20px;
 				--testimonial-item-radius: 12px;
-				--testimonial-item-bw: 2px;
+				--testimonial-item-bw: 1px;
 
 				--testimonial-text-fs: 14px;
 				--testimonial-text-lh: 21px;
@@ -216,10 +219,17 @@
 			color: var(--testimonial-header-text-color);
 		}
 
+		.testimonial-slider-main {
+			max-width: var(--testimonial-container-width);
+			width: 100%;
+			margin: auto;
+			padding-left: var(--testimonial-container-pl);
+			padding-right: var(--testimonial-container-pr);
+		}
+
 		.testimonial-slider {
 			max-width: 100%;
-			margin: auto;
-			position: relative
+			position: relative;
 		}
 
 		.testimonial-wrapper {
@@ -241,7 +251,6 @@
 			padding: var(--testimonial-item-padding);
 			border-radius: var(--testimonial-item-radius);
 			position: relative;
-			/* box-shadow: var(--testimonial-item-shadow); */
 			border: 1px solid var(--testimonial-item-bc);
 			transition: all linear .3s;
 		}
@@ -249,16 +258,6 @@
 		.testimonial-slide {
 			flex: 0 0 var(--slide-width);
 			transition: transform var(--testimonial-slide-tansition) ease, opacity var(--testimonial-slide-tansition) ease, filter var(--testimonial-slide-tansition) ease;
-			/* opacity: var(--testimonial-slide-opacity); */
-			/* transform: scale(var(--testimonial-slide-scale)); */
-			/* filter: blur(var(--testimonial-slide-blur)); */
-		}
-
-		.testimonial-slide.active {
-			/* opacity: var(--testimonial-slide-active-opacity);
-			transform: scale(var(--testimonial-slide-active-scale));
-			filter: blur(var(--testimonial-slide-active-blur));
-			z-index: 10; */
 		}
 
 		.testimonial-slider-btn {
@@ -370,8 +369,26 @@
 		/* testimonial section css end */
 
 		@media only screen and (max-width: 575px) {
+			.testimonial-slider-main {
+				padding-left: var(--testimonial-slider-main-pl);
+				padding-right: var(--testimonial-slider-main-pr);
+			}
+
 			.testimonial-slider-btn {
 				display: none;
+			}
+
+			.testimonial-slide {
+				transform: scale(var(--testimonial-slide-scale));
+			}
+
+			.testimonial-slide.active {
+				transform: scale(var(--testimonial-slide-active-scale));
+				z-index: 10;
+			}
+
+			.testimonial-item {
+				box-shadow: var(--testimonial-item-shadow);
 			}
 		}
 	</style>
@@ -383,6 +400,8 @@
 				<h2 class="testimonial-header-title">What Our Clients Say</h2>
 				<p class="testimonial-header-text">Read real experiences from people who use our platform daily.</p>
 			</div>
+		</div>
+		<div class="testimonial-slider-main">
 			<div class="testimonial-slider" id="testimonialSlider">
 				<button class="testimonial-slider-btn testimonial-slider-btn-prev">&#10094;</button>
 				<div class="testimonial-wrapper">
@@ -656,46 +675,87 @@
 					opt,
 				);
 				this.timer = null;
+
 				this.drag = false;
+				this.isAnimating = false;
 				this.setup();
 				this.bind();
 				if (this.opts.autoplay) this.start();
 			}
+			currentOptions() {
+				let settings = { ...this.opts };
+				const width = window.innerWidth;
+
+				Object.keys(this.opts.breakpoints)
+					.map(Number)
+					.sort((a, b) => b - a)
+					.forEach(bp => {
+						if (width <= bp) {
+							settings = {
+								...settings,
+								...this.opts.breakpoints[bp]
+							};
+						}
+					});
+
+				return settings;
+			}
 			visible() {
-				let v = this.opts.slidesToShow,
-					w = innerWidth;
-				Object.keys(this.opts.breakpoints).forEach((b) => {
-					if (w <= +b) v = this.opts.breakpoints[b].slidesToShow;
-				});
-				return v;
+				return this.currentOptions().slidesToShow;
 			}
 			setup() {
 				this.real = [...this.track.children];
+
+				const settings = this.currentOptions();
+				this.cloneCount = settings.centerMode
+					? Math.ceil(settings.slidesToShow) + 1
+					: Math.ceil(settings.slidesToShow);
+
 				if (this.opts.infinite) {
-					let a = this.real.slice(-this.visible()).map((x) => x.cloneNode(true));
-					let b = this.real.slice(0, this.visible()).map((x) => x.cloneNode(true));
-					a.forEach((n) => this.track.prepend(n));
-					b.forEach((n) => this.track.append(n));
+					const before = this.real
+						.slice(-this.cloneCount)
+						.map(x => x.cloneNode(true));
+
+					const after = this.real
+						.slice(0, this.cloneCount)
+						.map(x => x.cloneNode(true));
+
+					before.forEach(n => this.track.prepend(n));
+					after.forEach(n => this.track.append(n));
 				}
+
 				this.slides = [...this.track.children];
-				this.index = this.visible();
+				this.index = this.cloneCount;
 				this.layout();
 			}
+
 			layout() {
-				let vis = this.visible(),
-					gap = this.opts.gap,
-					w = this.viewport.clientWidth;
-				this.sw = (w - gap * (vis - 1)) / vis;
+				const settings = this.currentOptions();
+
+				const vis = settings.slidesToShow;
+				const gap = settings.gap;
+				const w = this.viewport.clientWidth;
+
+				if (settings.centerMode && vis % 1 !== 0) {
+					const side = (vis - 1) / 2;
+					this.sw = (w - gap * 2 * side) / vis;
+				} else {
+					this.sw = (w - gap * (vis - 1)) / vis;
+				}
+
 				this.track.style.setProperty("--gap", gap + "px");
 				this.track.style.setProperty("--slide-width", this.sw + "px");
+
 				this.jump();
 			}
+
 			offset() {
-				const slideSize = this.sw + this.opts.gap;
+				const settings = this.currentOptions();
+				const slideSize = this.sw + settings.gap;
 
 				let offset = this.index * slideSize;
 
-				if (this.opts.centerMode) {
+				if (settings.centerMode) {
 					offset -= (this.viewport.clientWidth - this.sw) / 2;
 				}
 
@@ -708,24 +768,36 @@
 
 				this.slides[this.index].classList.add("active");
 			}
+
 			jump(anim = false) {
+				this.isAnimating = anim;
+
 				this.track.style.transition = anim
 					? `transform ${this.opts.speed}ms ease`
 					: "none";
+
 				this.track.style.transform = `translateX(-${this.offset()}px)`;
 				this.updateActive();
+
+				if (!anim) {
+					this.isAnimating = false;
+				}
 			}
+
 			next() {
+				if (this.isAnimating) return;
+
 				this.index++;
 				this.jump(true);
-				this.updateActive();
 			}
 
 			prev() {
+				if (this.isAnimating) return;
+
 				this.index--;
 				this.jump(true);
-				this.updateActive();
 			}
+
 			handleUserInteraction() {
 				this.userInteracted = true;
 				this.stop();
@@ -740,17 +812,33 @@
 					this.prev();
 				};
 				this.track.addEventListener("transitionend", () => {
-					let vis = this.visible();
-					if (this.index >= this.real.length + vis) {
-						this.index = vis;
+					const cloneCount = this.cloneCount;
+
+					if (this.index >= this.real.length + cloneCount) {
+						this.index = cloneCount;
+						this.jump(false);
+					} else if (this.index < cloneCount) {
+						this.index = this.real.length + cloneCount - 1;
 						this.jump(false);
 					}
-					if (this.index < vis) {
-						this.index = this.real.length + vis - 1;
-						this.jump(false);
+
+					this.isAnimating = false;
+				});
+				addEventListener("resize", () => {
+					const settings = this.currentOptions();
+
+					const newCloneCount = settings.centerMode
+						? Math.ceil(settings.slidesToShow) + 1
+						: Math.ceil(settings.slidesToShow);
+
+					if (newCloneCount !== this.cloneCount) {
+						this.track.innerHTML = "";
+						this.real.forEach(slide => this.track.appendChild(slide));
+						this.setup();
+					} else {
+						this.layout();
 					}
 				});
-				addEventListener("resize", () => this.layout());
 				this.viewport.addEventListener("mouseenter", () => this.stop());
 				this.viewport.addEventListener("mouseleave", () => this.start());
 				let sx = 0,
@@ -809,17 +897,20 @@
 			interval: 3000,
 			breakpoints: {
 				992: {
-					gap: 10,
 					slidesToShow: 2,
+					gap: 10
 				},
-				768: {
-					gap: 10,
+				767: {
 					slidesToShow: 2,
+					gap: 10
+				},
+				575: {
+					slidesToShow: 1.2,
+					centerMode: true,
+					gap: 0
 				}
-				// 768: { slidesToShow: 2 }
 			}
 		});
-
 	</script>
 </body>
 
