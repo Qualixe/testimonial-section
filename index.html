@@ -527,7 +527,7 @@
 									years."</p>
 							</div>
 						</div>
-						<div class="testimonial-item testimonial-slide">
+						<!-- <div class="testimonial-item testimonial-slide">
 							<div class="testimonial-author">
 								<div class="testimonial-author-img">
 									<img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emily Chen">
@@ -566,8 +566,8 @@
 									a level of balance I hadn't experienced in
 									years."</p>
 							</div>
-						</div>
-						<div class="testimonial-item testimonial-slide">
+						</div> -->
+						<!-- <div class="testimonial-item testimonial-slide">
 							<div class="testimonial-author">
 								<div class="testimonial-author-img">
 									<img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Michael Brown">
@@ -646,7 +646,7 @@
 									a level of balance I hadn't experienced in
 									years."</p>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<button class="testimonial-slider-btn testimonial-slider-btn-next">&#10095;</button>
@@ -700,32 +700,34 @@
 
 				return settings;
 			}
+
 			visible() {
 				return this.currentOptions().slidesToShow;
 			}
+
 			setup() {
 				this.real = [...this.track.children];
 
 				const settings = this.currentOptions();
-				this.cloneCount = settings.centerMode
-					? Math.ceil(settings.slidesToShow) + 1
-					: Math.ceil(settings.slidesToShow);
+
+				const visible = Math.ceil(settings.slidesToShow);
+
+				// Clone ALL slides
+				this.cloneCount = this.real.length;
 
 				if (this.opts.infinite) {
-					const before = this.real
-						.slice(-this.cloneCount)
-						.map(x => x.cloneNode(true));
-
-					const after = this.real
-						.slice(0, this.cloneCount)
-						.map(x => x.cloneNode(true));
+					const before = this.real.map(el => el.cloneNode(true));
+					const after = this.real.map(el => el.cloneNode(true));
 
 					before.forEach(n => this.track.prepend(n));
 					after.forEach(n => this.track.append(n));
 				}
 
 				this.slides = [...this.track.children];
+
+				// Start from the first real slide
 				this.index = this.cloneCount;
+
 				this.layout();
 			}
 
@@ -751,6 +753,7 @@
 
 			offset() {
 				const settings = this.currentOptions();
+
 				const slideSize = this.sw + settings.gap;
 
 				let offset = this.index * slideSize;
@@ -761,6 +764,7 @@
 
 				return offset;
 			}
+
 			updateActive() {
 				this.slides.forEach(slide => {
 					slide.classList.remove("active");
@@ -772,21 +776,27 @@
 			jump(anim = false) {
 				this.isAnimating = anim;
 
-				this.track.style.transition = anim
-					? `transform ${this.opts.speed}ms ease`
-					: "none";
+				if (anim) {
+					this.track.style.transition = `transform ${this.opts.speed}ms ease`;
+				} else {
+					this.track.style.transition = "none";
+					this.track.offsetHeight;
+				}
 
 				this.track.style.transform = `translateX(-${this.offset()}px)`;
 				this.updateActive();
 
 				if (!anim) {
-					this.isAnimating = false;
+					requestAnimationFrame(() => {
+						this.isAnimating = false;
+					});
 				}
 			}
 
 			next() {
 				if (this.isAnimating) return;
 
+				this.isAnimating = true;
 				this.index++;
 				this.jump(true);
 			}
@@ -794,6 +804,7 @@
 			prev() {
 				if (this.isAnimating) return;
 
+				this.isAnimating = true;
 				this.index--;
 				this.jump(true);
 			}
@@ -811,33 +822,41 @@
 					this.handleUserInteraction();
 					this.prev();
 				};
-				this.track.addEventListener("transitionend", () => {
-					const cloneCount = this.cloneCount;
 
-					if (this.index >= this.real.length + cloneCount) {
+				this.track.addEventListener("transitionend", () => {
+					if (!this.opts.infinite) {
+						this.isAnimating = false;
+						return;
+					}
+
+					const cloneCount = this.cloneCount;
+					const realCount = this.real.length;
+
+					if (this.index >= cloneCount + realCount) {
 						this.index = cloneCount;
 						this.jump(false);
 					} else if (this.index < cloneCount) {
-						this.index = this.real.length + cloneCount - 1;
+						this.index = cloneCount + realCount - 1;
 						this.jump(false);
 					}
 
-					this.isAnimating = false;
+					requestAnimationFrame(() => {
+						this.isAnimating = false;
+					});
 				});
+
 				addEventListener("resize", () => {
-					const settings = this.currentOptions();
+					const oldRealIndex =
+						((this.index - this.cloneCount) % this.real.length + this.real.length) %
+						this.real.length;
 
-					const newCloneCount = settings.centerMode
-						? Math.ceil(settings.slidesToShow) + 1
-						: Math.ceil(settings.slidesToShow);
+					this.track.innerHTML = "";
+					this.real.forEach(slide => this.track.appendChild(slide));
 
-					if (newCloneCount !== this.cloneCount) {
-						this.track.innerHTML = "";
-						this.real.forEach(slide => this.track.appendChild(slide));
-						this.setup();
-					} else {
-						this.layout();
-					}
+					this.setup();
+
+					this.index = this.cloneCount + oldRealIndex;
+					this.jump(false);
 				});
 				this.viewport.addEventListener("mouseenter", () => this.stop());
 				this.viewport.addEventListener("mouseleave", () => this.start());
