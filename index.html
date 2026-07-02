@@ -74,6 +74,23 @@
 			--testimonial-slider-btn-prev-pos-l: -18px;
 			--testimonial-slider-btn-next-pos-r: -18px;
 
+			--testimonial-pagination-mt: 20px;
+			--testimonial-pagination-gap: 10px;
+
+			--testimonial-paginatio-button-width: 10px;
+			--testimonial-paginatio-button-height: 10px;
+			--testimonial-paginatio-button-radius: 50%;
+			--testimonial-paginatio-button-bg: #d1d5db;
+			--testimonial-paginatio-button-transition: .3s;
+			--testimonial-paginatio-button-pt: 0;
+			--testimonial-paginatio-button-pb: 0;
+			--testimonial-paginatio-button-pl: 0;
+			--testimonial-paginatio-button-pr: 0;
+
+			--testimonial-paginatio-button-active-width: 26px;
+			--testimonial-paginatio-button-active-radius: 999px;
+			--testimonial-paginatio-button-active-bg: #111827;
+
 			--testimonial-item-bg: #ffffff;
 			--testimonial-item-padding: 32px;
 			--testimonial-item-radius: 16px;
@@ -150,6 +167,14 @@
 				--testimonial-header-text-fs: 14px;
 				--testimonial-header-text-lh: 20px;
 				--testimonial-header-text-mt: 8px;
+
+				--testimonial-pagination-mt: 10px;
+				--testimonial-pagination-gap: 6px;
+
+				--testimonial-paginatio-button-width: 6px;
+				--testimonial-paginatio-button-height: 6px;
+
+				--testimonial-paginatio-button-active-width: 16px;
 
 				--testimonial-item-padding: 10px;
 				--testimonial-item-radius: 10px;
@@ -280,6 +305,34 @@
 
 		.testimonial-slider-btn-next {
 			right: var(--testimonial-slider-btn-next-pos-r)
+		}
+
+		.testimonial-pagination {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: var(--testimonial-pagination-gap);
+			margin-top: var(--testimonial-pagination-mt);
+		}
+
+		.testimonial-pagination button {
+			width: var(--testimonial-paginatio-button-width);
+			height: var(--testimonial-paginatio-button-height);
+			border-radius: var(--testimonial-paginatio-button-radius);
+			border: none;
+			background: var(--testimonial-paginatio-button-bg);
+			cursor: pointer;
+			padding-top: var(--testimonial-paginatio-button-pt);
+			padding-bottom: var(--testimonial-paginatio-button-pb);
+			padding-left: var(--testimonial-paginatio-button-pl);
+			padding-right: var(--testimonial-paginatio-button-pr);
+			transition: all var(--testimonial-paginatio-button-transition) ease;
+		}
+
+		.testimonial-pagination button.active {
+			width: var(--testimonial-paginatio-button-active-width);
+			border-radius: var(--testimonial-paginatio-button-active-radius);
+			background: var(--testimonial-paginatio-button-active-bg);
 		}
 
 		.testimonial-item:hover {
@@ -650,6 +703,7 @@
 					</div>
 				</div>
 				<button class="testimonial-slider-btn testimonial-slider-btn-next">&#10095;</button>
+				<div class="testimonial-pagination"></div>
 			</div>
 		</div>
 	</section>
@@ -670,6 +724,11 @@
 						interval: 3000,
 						infinite: true,
 						threshold: 60,
+						pagination: {
+							enabled: true,
+							el: ".testimonial-pagination",
+							clickable: true
+						},
 						breakpoints: {},
 					},
 					opt,
@@ -705,6 +764,49 @@
 				return this.currentOptions().slidesToShow;
 			}
 
+			buildPagination() {
+				if (!this.opts.pagination.enabled) return;
+
+				this.pagination = this.root.querySelector(this.opts.pagination.el);
+
+				if (!this.pagination) return;
+
+				this.pagination.innerHTML = "";
+
+				this.dots = this.real.map((_, i) => {
+					const btn = document.createElement("button");
+
+					if (this.opts.pagination.clickable) {
+						btn.addEventListener("click", () => {
+							if (this.isAnimating) return;
+
+							this.handleUserInteraction();
+
+							this.index = this.cloneCount + i;
+							this.jump(true);
+						});
+					}
+
+					this.pagination.appendChild(btn);
+
+					return btn;
+				});
+
+				this.updatePagination();
+			}
+
+			updatePagination() {
+				if (!this.dots) return;
+
+				const active =
+					((this.index - this.cloneCount) % this.real.length + this.real.length) %
+					this.real.length;
+
+				this.dots.forEach((dot, i) => {
+					dot.classList.toggle("active", i === active);
+				});
+			}
+
 			setup() {
 				this.real = [...this.track.children];
 
@@ -729,6 +831,10 @@
 				this.index = this.cloneCount;
 
 				this.layout();
+
+				if (this.opts.pagination.enabled) {
+					this.buildPagination();
+				}
 			}
 
 			layout() {
@@ -785,6 +891,9 @@
 
 				this.track.style.transform = `translateX(-${this.offset()}px)`;
 				this.updateActive();
+				if (this.opts.pagination.enabled) {
+					this.updatePagination();
+				}
 
 				if (!anim) {
 					requestAnimationFrame(() => {
@@ -914,6 +1023,11 @@
 			gap: 24,
 			autoplay: true,
 			interval: 3000,
+			pagination: {
+				enabled: true,
+				el: ".testimonial-pagination",
+				clickable: true
+			},
 			breakpoints: {
 				992: {
 					slidesToShow: 2,
