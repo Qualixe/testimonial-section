@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Testimonial 1</title>
+</head>
+
+<body>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			overflow-x: hidden;
+		}
+
+		:root {
+			/* --font-family-- */
+			--font-primary: "Poppins", sans-serif;
+
+			--testimonial-section-pt: 80px;
+			--testimonial-section-pb: 80px;
+			--testimonial-section-bg: #f5f5f5;
+
+			--testimonial-container-width: 1360px;
+			--testimonial-container-pl: 20px;
+			--testimonial-container-pr: 20px;
+
+			--testimonial-header-width: 700px;
+			--testimonial-header-mb: 48px;
+
+			--testimonial-header-title-fs: 36px;
+			--testimonial-header-title-fw: 600;
+			--testimonial-header-title-lh: 1.2;
+			--testimonial-header-title-color: #000000;
+
+			--testimonial-header-text-fs: 16px;
+			--testimonial-header-text-fw: 400;
+			--testimonial-header-text-lh: 1.4;
+			--testimonial-header-text-color: #000000;
+			--testimonial-header-text-mt: 12px;
+
+			--testimonial-wrapper-pt: 20px;
+			--testimonial-wrapper-pb: 20px;
+			--testimonial-wrapper-mt: -20px;
+			--testimonial-wrapper-mb: -20px;
+
+			--testimonial-slide-tansition: .4s;
+			--testimonial-slide-opacity: .45;
+			--testimonial-slide-scale: .82;
+			--testimonial-slide-blur: 2px;
+
+			--testimonial-slide-active-opacity: 1;
+			--testimonial-slide-active-scale: 1;
+			--testimonial-slide-active-blur: 0;
+
+			--testimonial-slider-btn-bg: #111111;
+			--testimonial-slider-btn-color: #ffffff;
+			--testimonial-slider-btn-border: 0;
+			--testimonial-slider-btn-width: 42px;
+			--testimonial-slider-btn-height: 42px;
+			--testimonial-slider-btn-radius: 50%;
+
+			--testimonial-slider-btn-prev-pos-l: -18px;
+			--testimonial-slider-btn-next-pos-r: -18px;
+
+			--testimonial-item-bg: #ffffff;
+			--testimonial-item-padding: 32px;
+			--testimonial-item-radius: 16px;
+			--testimonial-item-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.102);
+			--testimonial-item-bw: 3px;
+			--testimonial-item-before-bc: #51af51;
+			--testimonial-item-bc: #dddddd;
+
+			--testimonial-author-gap: 12px;
+
+			--testimonial-author-img-width: 56px;
+			--testimonial-author-img-min-width: 56px;
+			--testimonial-author-img-height: 56px;
+			--testimonial-author-img-radius: 50%;
+
+			--testimonial-author-name-fs: 16px;
+			--testimonial-author-name-fw: 600;
+			--testimonial-author-name-lh: 24px;
+			--testimonial-author-name-color: #000000;
+
+			--testimonial-author-designation-fs: 14px;
+			--testimonial-author-designation-lh: 20px;
+			--testimonial-author-designation-color: #000000;
+			--testimonial-author-designation-fw: 400;
+
+			--testimonial-ratings-mt: 20px;
+
+			--testimonial-rattings-svg-color: #9CAF88;
+			--testimonial-rattings-svg-width: 20px;
+			--testimonial-rattings-svg-height: 20px;
+
+			--testimonial-content-mt: 16px;
+
+			--testimonial-text-fs: 16px;
+			--testimonial-text-lh: 24px;
+			--testimonial-text-color: #000000;
+		}
+
+		@media only screen and (max-width: 992px) {
+			:root {
+				--testimonial-section-pt: 40px;
+				--testimonial-section-pb: 40px;
+
+				--testimonial-header-mb: 40px;
+			}
+		}
+
+		@media only screen and (max-width: 767px) {
+			:root {
+				--testimonial-item-padding: 20px;
+				--testimonial-item-radius: 12px;
+				--testimonial-item-bw: 2px;
+
+				--testimonial-text-fs: 14px;
+				--testimonial-text-lh: 21px;
+			}
+
+			/* testimonial section css end */
+		}
+
+		@media only screen and (max-width: 575px) {
+			:root {
+
+				--testimonial-section-pt: 24px;
+				--testimonial-section-pb: 24px;
+
+				--testimonial-container-pl: 16px;
+				--testimonial-container-pr: 16px;
+
+				--testimonial-header-mb: 24px;
+
+				--testimonial-header-title-fs: 24px;
+
+				--testimonial-header-text-fs: 14px;
+				--testimonial-header-text-lh: 20px;
+				--testimonial-header-text-mt: 8px;
+
+				--testimonial-item-padding: 10px;
+				--testimonial-item-radius: 10px;
+
+				--testimonial-author-gap: 6px;
+
+				--testimonial-author-img-width: 36px;
+				--testimonial-author-img-min-width: 36px;
+				--testimonial-author-img-height: 36px;
+
+				--testimonial-author-name-fs: 12px;
+				--testimonial-author-name-lh: 16px;
+
+				--testimonial-author-designation-fs: 12px;
+				--testimonial-author-designation-lh: 16px;
+
+				--testimonial-ratings-mt: 10px;
+
+				--testimonial-rattings-svg-width: 16px;
+				--testimonial-rattings-svg-height: 16px;
+
+				--testimonial-content-mt: 6px;
+
+				--testimonial-text-fs: 12px;
+				--testimonial-text-lh: 18px;
+			}
+		}
+
+		/* testimonial section css start */
+		.testimonial-section {
+			padding-top: var(--testimonial-section-pt);
+			padding-bottom: var(--testimonial-section-pb);
+			background: var(--testimonial-section-bg);
+		}
+
+		.testimonial-container {
+			max-width: var(--testimonial-container-width);
+			margin-left: auto;
+			margin-right: auto;
+			padding-left: var(--testimonial-container-pl);
+			padding-right: var(--testimonial-container-pr);
+		}
+
+		.testimonial-header {
+			max-width: var(--testimonial-header-width);
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: var(--testimonial-header-mb);
+			text-align: center;
+		}
+
+		.testimonial-header-title {
+			font-family: var(--font-primary);
+			font-size: var(--testimonial-header-title-fs);
+			font-weight: var(--testimonial-header-title-fw);
+			text-transform: capitalize;
+			line-height: var(--testimonial-header-title-lh);
+			color: var(--testimonial-header-title-color);
+		}
+
+		.testimonial-header-text {
+			font-family: var(--font-primary);
+			font-size: var(--testimonial-header-text-fs);
+			font-weight: var(--testimonial-header-text-fw);
+			line-height: var(--testimonial-header-text-lh);
+			margin-top: var(--testimonial-header-text-mt);
+			color: var(--testimonial-header-text-color);
+		}
+
+		.testimonial-slider {
+			max-width: 100%;
+			margin: auto;
+			position: relative
+		}
+
+		.testimonial-wrapper {
+			overflow: hidden;
+			padding-top: var(--testimonial-wrapper-pt);
+			padding-bottom: var(--testimonial-wrapper-pb);
+			margin-top: var(--testimonial-wrapper-mt);
+			margin-bottom: var(--testimonial-wrapper-mb);
+		}
+
+		.testimonial-slider-track {
+			display: flex;
+			gap: var(--gap);
+			will-change: transform;
+		}
+
+		.testimonial-item {
+			background: var(--testimonial-item-bg);
+			padding: var(--testimonial-item-padding);
+			border-radius: var(--testimonial-item-radius);
+			position: relative;
+			/* box-shadow: var(--testimonial-item-shadow); */
+			border: 1px solid var(--testimonial-item-bc);
+			transition: all linear .3s;
+		}
+
+		.testimonial-slide {
+			flex: 0 0 var(--slide-width);
+			transition: transform var(--testimonial-slide-tansition) ease, opacity var(--testimonial-slide-tansition) ease, filter var(--testimonial-slide-tansition) ease;
+			/* opacity: var(--testimonial-slide-opacity); */
+			/* transform: scale(var(--testimonial-slide-scale)); */
+			/* filter: blur(var(--testimonial-slide-blur)); */
+		}
+
+		.testimonial-slide.active {
+			/* opacity: var(--testimonial-slide-active-opacity);
+			transform: scale(var(--testimonial-slide-active-scale));
+			filter: blur(var(--testimonial-slide-active-blur));
+			z-index: 10; */
+		}
+
+		.testimonial-slider-btn {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			z-index: 2;
+			background: var(--testimonial-slider-btn-bg);
+			color: var(--testimonial-slider-btn-color);
+			border: var(--testimonial-slider-btn-border);
+			width: var(--testimonial-slider-btn-width);
+			height: var(--testimonial-slider-btn-height);
+			border-radius: var(--testimonial-slider-btn-radius);
+			cursor: pointer
+		}
+
+		.testimonial-slider-btn-prev {
+			left: var(--testimonial-slider-btn-prev-pos-l)
+		}
+
+		.testimonial-slider-btn-next {
+			right: var(--testimonial-slider-btn-next-pos-r)
+		}
+
+		.testimonial-item:hover {
+			border-color: var(--testimonial-item-before-bc);
+		}
+
+		.testimonial-item::before {
+			position: absolute;
+			content: "";
+			left: 0;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			border: var(--testimonial-item-bw) solid var(--testimonial-item-before-bc);
+			opacity: 0;
+			visibility: hidden;
+			z-index: 1;
+			border-radius: var(--testimonial-item-radius);
+			transition: all linear .3s;
+		}
+
+		.testimonial-item:hover::before {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.testimonial-author {
+			display: flex;
+			gap: var(--testimonial-author-gap);
+			align-items: center;
+		}
+
+		.testimonial-author-img {
+			width: var(--testimonial-author-img-width);
+			min-width: var(--testimonial-author-img-min-width);
+			height: var(--testimonial-author-img-height);
+			overflow: hidden;
+			border-radius: var(--testimonial-author-img-radius);
+		}
+
+		.testimonial-author-img img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.testimonial-author-name {
+			color: var(--testimonial-author-name-color);
+			font-weight: var(--testimonial-author-name-fw);
+			font-size: var(--testimonial-author-name-fs);
+			line-height: var(--testimonial-author-name-lh);
+			font-family: var(--font-primary);
+			text-transform: capitalize;
+		}
+
+		.testimonial-author-designation {
+			font-size: var(--testimonial-author-designation-fs);
+			line-height: var(--testimonial-author-designation-lh);
+			font-family: var(--font-primary);
+			color: var(--testimonial-author-designation-color);
+			text-transform: capitalize;
+			font-weight: var(--testimonial-author-designation-fw);
+		}
+
+		.testimonial-rattings {
+			display: flex;
+			margin-top: var(--testimonial-ratings-mt);
+		}
+
+		.testimonial-rattings svg {
+			fill: var(--testimonial-rattings-svg-color);
+			width: var(--testimonial-rattings-svg-width);
+			height: var(--testimonial-rattings-svg-height);
+		}
+
+		.testimonial-content {
+			margin-top: var(--testimonial-content-mt);
+		}
+
+		.testimonial-text {
+			font-size: var(--testimonial-text-fs);
+			line-height: var(--testimonial-text-lh);
+			color: var(--testimonial-text-color);
+			font-family: var(--font-primary);
+		}
+
+		/* testimonial section css end */
+
+		@media only screen and (max-width: 575px) {
+			.testimonial-slider-btn {
+				display: none;
+			}
+		}
+	</style>
+
+	<!-- Testimonials Section Container -->
+	<section class="testimonial-section">
+		<div class="testimonial-container">
+			<div class="testimonial-header">
+				<h2 class="testimonial-header-title">What Our Clients Say</h2>
+				<p class="testimonial-header-text">Read real experiences from people who use our platform daily.</p>
+			</div>
+			<div class="testimonial-slider" id="testimonialSlider">
+				<button class="testimonial-slider-btn testimonial-slider-btn-prev">&#10094;</button>
+				<div class="testimonial-wrapper">
+					<div class="testimonial-items testimonial-slider-track">
+						<div class="testimonial-item testimonial-slide">
+							<div class="testimonial-author">
+								<div class="testimonial-author-img">
+									<img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop"
+										alt="Sarah Jenkins">
+								</div>
+								<div class="testimonial-author-details">
+									<p class="testimonial-author-name">Maria S.</p>
+									<p class="testimonial-author-designation">Business Executive</p>
+								</div>
+							</div>
+							<div class="testimonial-rattings">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+							</div>
+							<div class="testimonial-content">
+								<p class="testimonial-text">"After just one month, I've lost 4 lbs and my bloating is
+									completely gone!
+									The Cuachalalate bark has been amazing for my digestion. I feel lighter and more
+									energetic than I have
+									in years."</p>
+							</div>
+						</div>
+						<div class="testimonial-item testimonial-slide">
+							<div class="testimonial-author">
+								<div class="testimonial-author-img">
+									<img src="https://randomuser.me/api/portraits/women/44.jpg">
+								</div>
+								<div class="testimonial-author-details">
+									<p class="testimonial-author-name">Sarah Thompson</p>
+									<p class="testimonial-author-designation">Yoga Instructor</p>
+								</div>
+							</div>
+							<div class="testimonial-rattings">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+							</div>
+							<div class="testimonial-content">
+								<p class="testimonial-text">"The scan identified energetic blockages that
+									were affecting my practice and daily life. The
+									holistic recommendations helped me achieve
+									a level of balance I hadn't experienced in
+									years."</p>
+							</div>
+						</div>
+						<div class="testimonial-item testimonial-slide">
+							<div class="testimonial-author">
+								<div class="testimonial-author-img">
+									<img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emily Chen">
+								</div>
+								<div class="testimonial-author-details">
+									<p class="testimonial-author-name">Hridoy Molla</p>
+									<p class="testimonial-author-designation">Javascript developer</p>
+								</div>
+							</div>
+							<div class="testimonial-rattings">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+							</div>
+							<div class="testimonial-content">
+								<p class="testimonial-text">"The scan identified energetic blockages that
+									were affecting my practice and daily life. The
+									holistic recommendations helped me achieve
+									a level of balance I hadn't experienced in
+									years."</p>
+							</div>
+						</div>
+						<div class="testimonial-item testimonial-slide">
+							<div class="testimonial-author">
+								<div class="testimonial-author-img">
+									<img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emily Chen">
+								</div>
+								<div class="testimonial-author-details">
+									<p class="testimonial-author-name">hasu apa</p>
+									<p class="testimonial-author-designation">Chief Executive Officer</p>
+								</div>
+							</div>
+							<div class="testimonial-rattings">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+							</div>
+							<div class="testimonial-content">
+								<p class="testimonial-text">"The scan identified energetic blockages that
+									were affecting my practice and daily life. The
+									holistic recommendations helped me achieve
+									a level of balance I hadn't experienced in
+									years."</p>
+							</div>
+						</div>
+						<div class="testimonial-item testimonial-slide">
+							<div class="testimonial-author">
+								<div class="testimonial-author-img">
+									<img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Michael Brown">
+								</div>
+								<div class="testimonial-author-details">
+									<p class="testimonial-author-name">Michael Brown</p>
+									<p class="testimonial-author-designation">Professional Engineer</p>
+								</div>
+							</div>
+							<div class="testimonial-rattings">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+							</div>
+							<div class="testimonial-content">
+								<p class="testimonial-text">"The scan identified energetic blockages that
+									were affecting my practice and daily life. The
+									holistic recommendations helped me achieve
+									a level of balance I hadn't experienced in
+									years."</p>
+							</div>
+						</div>
+						<div class="testimonial-item testimonial-slide">
+							<div class="testimonial-author">
+								<div class="testimonial-author-img">
+									<img src="https://randomuser.me/api/portraits/women/21.jpg" alt="Jessica Lee">
+								</div>
+								<div class="testimonial-author-details">
+									<p class="testimonial-author-name">Jessica Lee</p>
+									<p class="testimonial-author-designation">Project Manager</p>
+								</div>
+							</div>
+							<div class="testimonial-rattings">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fbbf24" viewBox="0 0 24 24">
+									<path
+										d="M12 2.5l2.91 5.89 6.5.95-4.7 4.58 1.11 6.47L12 17.27l-5.82 3.12 1.11-6.47-4.7-4.58 6.5-.95L12 2.5z" />
+								</svg>
+							</div>
+							<div class="testimonial-content">
+								<p class="testimonial-text">"The scan identified energetic blockages that
+									were affecting my practice and daily life. The
+									holistic recommendations helped me achieve
+									a level of balance I hadn't experienced in
+									years."</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<button class="testimonial-slider-btn testimonial-slider-btn-next">&#10095;</button>
+			</div>
+		</div>
+	</section>
+
+	<script>
+		class InfiniteSlider {
+			constructor(sel, opt = {}) {
+				this.userInteracted = false;
+				this.root = document.querySelector(sel);
+				this.viewport = this.root.querySelector(".testimonial-wrapper");
+				this.track = this.root.querySelector(".testimonial-slider-track");
+				this.opts = Object.assign(
+					{
+						slidesToShow: 1,
+						gap: 20,
+						speed: 500,
+						autoplay: false,
+						interval: 3000,
+						infinite: true,
+						threshold: 60,
+						breakpoints: {},
+					},
+					opt,
+				);
+				this.timer = null;
+				this.drag = false;
+				this.setup();
+				this.bind();
+				if (this.opts.autoplay) this.start();
+			}
+			visible() {
+				let v = this.opts.slidesToShow,
+					w = innerWidth;
+				Object.keys(this.opts.breakpoints).forEach((b) => {
+					if (w <= +b) v = this.opts.breakpoints[b].slidesToShow;
+				});
+				return v;
+			}
+			setup() {
+				this.real = [...this.track.children];
+				if (this.opts.infinite) {
+					let a = this.real.slice(-this.visible()).map((x) => x.cloneNode(true));
+					let b = this.real.slice(0, this.visible()).map((x) => x.cloneNode(true));
+					a.forEach((n) => this.track.prepend(n));
+					b.forEach((n) => this.track.append(n));
+				}
+				this.slides = [...this.track.children];
+				this.index = this.visible();
+				this.layout();
+			}
+			layout() {
+				let vis = this.visible(),
+					gap = this.opts.gap,
+					w = this.viewport.clientWidth;
+				this.sw = (w - gap * (vis - 1)) / vis;
+				this.track.style.setProperty("--gap", gap + "px");
+				this.track.style.setProperty("--slide-width", this.sw + "px");
+				this.jump();
+			}
+			offset() {
+				const slideSize = this.sw + this.opts.gap;
+
+				let offset = this.index * slideSize;
+
+				if (this.opts.centerMode) {
+					offset -= (this.viewport.clientWidth - this.sw) / 2;
+				}
+
+				return offset;
+			}
+			updateActive() {
+				this.slides.forEach(slide => {
+					slide.classList.remove("active");
+				});
+
+				this.slides[this.index].classList.add("active");
+			}
+			jump(anim = false) {
+				this.track.style.transition = anim
+					? `transform ${this.opts.speed}ms ease`
+					: "none";
+				this.track.style.transform = `translateX(-${this.offset()}px)`;
+				this.updateActive();
+			}
+			next() {
+				this.index++;
+				this.jump(true);
+				this.updateActive();
+			}
+
+			prev() {
+				this.index--;
+				this.jump(true);
+				this.updateActive();
+			}
+			handleUserInteraction() {
+				this.userInteracted = true;
+				this.stop();
+			}
+			bind() {
+				this.root.querySelector(".testimonial-slider-btn-next").onclick = () => {
+					this.handleUserInteraction();
+					this.next();
+				};
+				this.root.querySelector(".testimonial-slider-btn-prev").onclick = () => {
+					this.handleUserInteraction();
+					this.prev();
+				};
+				this.track.addEventListener("transitionend", () => {
+					let vis = this.visible();
+					if (this.index >= this.real.length + vis) {
+						this.index = vis;
+						this.jump(false);
+					}
+					if (this.index < vis) {
+						this.index = this.real.length + vis - 1;
+						this.jump(false);
+					}
+				});
+				addEventListener("resize", () => this.layout());
+				this.viewport.addEventListener("mouseenter", () => this.stop());
+				this.viewport.addEventListener("mouseleave", () => this.start());
+				let sx = 0,
+					base = 0;
+				const start = (x) => {
+					this.drag = true;
+					sx = x;
+					base = this.offset();
+					this.track.style.transition = "none";
+				};
+				const move = (x) => {
+					if (!this.drag) return;
+					this.track.style.transform = `translateX(-${base - (x - sx)}px)`;
+				};
+				const end = (x) => {
+					if (!this.drag) return;
+					this.drag = false;
+					let dx = x - sx;
+					if (Math.abs(dx) > this.opts.threshold) {
+						dx < 0 ? this.next() : this.prev();
+					} else this.jump(true);
+				};
+				this.viewport.addEventListener("mousedown", (e) => start(e.clientX));
+				addEventListener("mousemove", (e) => move(e.clientX));
+				addEventListener("mouseup", (e) => end(e.clientX));
+				this.viewport.addEventListener(
+					"touchstart",
+					(e) => start(e.touches[0].clientX),
+					{ passive: true },
+				);
+				this.viewport.addEventListener(
+					"touchmove",
+					(e) => move(e.touches[0].clientX),
+					{ passive: true },
+				);
+				this.viewport.addEventListener("touchend", (e) =>
+					end(e.changedTouches[0].clientX),
+				);
+			}
+			start() {
+				if (!this.opts.autoplay) return;
+				this.stop();
+				this.timer = setInterval(() => this.next(), this.opts.interval);
+			}
+			stop() {
+				clearInterval(this.timer);
+			}
+		}
+
+		new InfiniteSlider("#testimonialSlider", {
+			slidesToShow: 3,
+			centerMode: false,
+			centerPadding: 40,
+			gap: 24,
+			autoplay: true,
+			interval: 3000,
+			breakpoints: {
+				992: {
+					gap: 10,
+					slidesToShow: 2,
+				},
+				768: {
+					gap: 10,
+					slidesToShow: 2,
+				}
+				// 768: { slidesToShow: 2 }
+			}
+		});
+
+	</script>
+</body>
+
+</html>
